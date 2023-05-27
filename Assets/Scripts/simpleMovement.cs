@@ -39,9 +39,9 @@ public class simpleMovement : MonoBehaviour {
 
     private void Update() // atualiza a cada frame
     {
-        inputHorizontal.x = Input.GetAxisRaw("Horizontal"); // input horizontal
+        inputHorizontal.x = 1f; // input horizontal
         
-        Flip(inputHorizontal);
+        //Flip(inputHorizontal);
         Move(inputHorizontal);
         Jump();
 
@@ -98,13 +98,13 @@ public class simpleMovement : MonoBehaviour {
         }
     }
 
-    // Identifica se o player está virado para a direita ou esquerda
+    /* Identifica se o player está virado para a direita ou esquerda
     public void Flip(Vector3 input)
     {
         if(input.x>0) _sprite.flipX = false;
         else if(input.x<0) _sprite.flipX = true;
     }
-
+    */
 
     // Identifica se o player está no chão
     private void OnCollisionEnter2D(Collision2D collision)
