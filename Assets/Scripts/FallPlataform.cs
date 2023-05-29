@@ -12,7 +12,7 @@ public class FallPlataform : MonoBehaviour
     }
     IEnumerator Fall()
     {
-        yield return new WaitForSeconds(0.0001f);
+        yield return new WaitForSeconds(0.1f);
         _rigidbody.bodyType=RigidbodyType2D.Dynamic;
         Destroy(gameObject,delay);
     }

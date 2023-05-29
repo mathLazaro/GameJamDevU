@@ -14,6 +14,7 @@ public class simpleMovement : MonoBehaviour {
     private Animator _animator;
 
     // variaveis de controle
+    private bool st=true;
     private bool isJumping;
     private bool doubleJump;
 
@@ -29,6 +30,7 @@ public class simpleMovement : MonoBehaviour {
         _sprite = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
 
+        inputHorizontal.x = 0f;
         // variaveis de controle da animação
         _animator.SetBool("run",false);
         _animator.SetBool("jump",false);
@@ -39,7 +41,11 @@ public class simpleMovement : MonoBehaviour {
 
     private void Update() // atualiza a cada frame
     {
-        inputHorizontal.x = 1f; // input horizontal
+        if(Input.GetButtonDown("Jump")&&st){
+            inputHorizontal.x = 1f;
+            st=false;
+        }
+         // input horizontal
         
         //Flip(inputHorizontal);
         Move(inputHorizontal);
@@ -76,7 +82,7 @@ public class simpleMovement : MonoBehaviour {
 
     public void Jump() // Metodo de pulo
     {
-        if(Input.GetButtonDown("Jump"))
+        if(Input.GetButtonDown("Jump")&&!st)
         {
             
             if(!isJumping)
