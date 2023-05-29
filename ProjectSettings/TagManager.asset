@@ -7,6 +7,7 @@ TagManager:
   - Brics
   - Grass
   - Fruit
+  - WinningLine
   layers:
   - Default
   - TransparentFX

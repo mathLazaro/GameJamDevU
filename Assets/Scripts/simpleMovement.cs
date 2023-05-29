@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class simpleMovement : MonoBehaviour {
     private Vector3 inputHorizontal; // vetor de controle horizontal (3d por causa do transform)
@@ -122,6 +123,21 @@ public class simpleMovement : MonoBehaviour {
     {
         if(collision.gameObject.layer==6) isJumping=true; // significa que ele não está no chão
     }
-    //
+    
+    private void OnTriggerEnter2D(Collider2D collider2D)
+    {
+        if (collider2D.gameObject.tag == "WinningLine")
+        {
+            inputHorizontal.x = 0f;
+            Info.score=GameController.instance.totalScore;
+            StartCoroutine(ChangeScene());
+        }
+    }
+
+    IEnumerator ChangeScene()
+    {
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene("Final");
+    }
 
 }
