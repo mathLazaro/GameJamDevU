@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ResetSceneOnDeath : MonoBehaviour
 {
-    private Rigidbody2D _rigidbody;
+    //private Rigidbody2D _rigidbody;
     private Collider2D _collider;
 
     /*void Update()
@@ -13,9 +13,9 @@ public class ResetSceneOnDeath : MonoBehaviour
         transform.Rotate(new Vector3(0, 0, 45) \*Time.deltaTime);
     }*/
 
-    void OnCollisionEnter2D(Collision2D other)
+    void OnTriggerEnter2D(Collider2D collider2D)
     {
-        if (other.gameObject.tag == "Player")
+        if (collider2D.gameObject.tag == "Player")
         {
             SceneManager.LoadScene("Scene");
         }
