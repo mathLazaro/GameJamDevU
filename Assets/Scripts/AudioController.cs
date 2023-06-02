@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class AudioController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public AudioSource audioSourceBackgroundMusic;
+    public AudioClip backgroundMusic;
+    private void Start() {
+        audioSourceBackgroundMusic.clip=backgroundMusic;
+        audioSourceBackgroundMusic.loop=true;
+        audioSourceBackgroundMusic.Play();
     }
 }

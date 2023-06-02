@@ -5,19 +5,22 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class simpleMovement : MonoBehaviour {
+    public VictoryAudio victoryAudioA;
+
     private Vector3 inputHorizontal; // vetor de controle horizontal (3d por causa do transform)
     private Vector2 inputJump; //vetor de controle vertical
-
+    
     // Objetos do Objeto player???
     private Rigidbody2D _rigidbody;
     private Collider2D _collider;
     private SpriteRenderer _sprite;
     private Animator _animator;
+    private AudioSource audioJump;
 
     // variaveis de controle
-    private bool st=true;
     private bool isJumping;
     private bool doubleJump;
+    private bool startLine;
 
     // variaveis de config
     [SerializeField] private float speed=5f;
@@ -30,7 +33,9 @@ public class simpleMovement : MonoBehaviour {
         _collider = GetComponent<Collider2D>();
         _sprite = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
-
+        audioJump = GetComponent<AudioSource>();
+        
+        startLine=true;
         inputHorizontal.x = 0f;
         // variaveis de controle da animação
         _animator.SetBool("run",false);
@@ -42,15 +47,16 @@ public class simpleMovement : MonoBehaviour {
 
     private void Update() // atualiza a cada frame
     {
-        if(Input.GetButtonDown("Jump")&&st){
-            inputHorizontal.x = 1f;
-            st=false;
+        if(startLine&&Input.GetButtonDown("Jump")) 
+        {
+            startLine=false;
+            inputHorizontal.x=1f;
         }
-         // input horizontal
-        
-        //Flip(inputHorizontal);
-        Move(inputHorizontal);
-        Jump();
+        else
+        {
+            Move(inputHorizontal);
+            Jump();
+        }
 
         // Controle das variaveis de animacao
         if(_rigidbody.velocity.y>0)
@@ -83,11 +89,12 @@ public class simpleMovement : MonoBehaviour {
 
     public void Jump() // Metodo de pulo
     {
-        if(Input.GetButtonDown("Jump")&&!st)
+        if(Input.GetButtonDown("Jump"))
         {
             
-            if(!isJumping)
+            if(!isJumping&&(_rigidbody.velocity.y<=0f&&_rigidbody.velocity.y>=-1f))
             {
+                audioJump.Play();
                 inputJump.x=0f;
                 inputJump.y=jumpForce;
                 _rigidbody.AddForce(inputJump,ForceMode2D.Impulse);
@@ -95,6 +102,7 @@ public class simpleMovement : MonoBehaviour {
             }
             else if(doubleJump)
             {
+                audioJump.Play();
                 _animator.SetBool("double_jump",true);
 
                 inputJump.x=0f;
@@ -127,16 +135,17 @@ public class simpleMovement : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collider2D)
     {
         if (collider2D.gameObject.tag == "WinningLine")
-        {
+        {       
             inputHorizontal.x = 0f;
             Info.score=GameController.instance.totalScore;
             StartCoroutine(ChangeScene());
         }
     }
 
+
     IEnumerator ChangeScene()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         SceneManager.LoadScene("Final");
     }
 
